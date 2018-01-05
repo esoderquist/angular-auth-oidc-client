@@ -669,11 +669,13 @@ export class OidcSecurityService {
         }
         this.runTokenValidationRunning = true;
 
-        const source = timer(5000, 3000).pipe(
-            timeInterval(),
-            pluck('interval'),
-            take(10000)
-        );
+        // const source = timer(5000, 3000).pipe(
+        //     timeInterval(),
+        //     pluck('interval'),
+        //     take(10000)
+        // );
+
+        const source = timer(5000, 3000);
 
         source.subscribe(
             () => {

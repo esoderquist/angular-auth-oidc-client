@@ -73,11 +73,13 @@ export class OidcSecurityCheckSession {
     }
 
     pollServerSession(clientId: any) {
-        const source = timer(3000, 3000).pipe(
-            timeInterval(),
-            pluck('interval'),
-            take(10000)
-        );
+        // const source = timer(3000, 3000).pipe(
+        //     timeInterval(),
+        //     pluck('interval'),
+        //     take(10000)
+        // );
+
+        const source = timer(3000, 3000);
 
         source.subscribe(
             () => {
