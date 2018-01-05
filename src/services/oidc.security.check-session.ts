@@ -79,37 +79,37 @@ export class OidcSecurityCheckSession {
         //     take(10000)
         // );
 
-        const source = timer(3000, 3000);
+        // const source = timer(3000, 3000);
 
-        source.subscribe(
-            () => {
-                if (this.sessionIframe && clientId) {
-                    this.loggerService.logDebug(this.sessionIframe);
-                    const session_state = this.oidcSecurityCommon.sessionState;
-                    if (session_state) {
-                        this.sessionIframe.contentWindow.postMessage(
-                            clientId + ' ' + session_state,
-                            this.authConfiguration.stsServer
-                        );
-                    }
-                } else {
-                    this.loggerService.logWarning(
-                        'OidcSecurityCheckSession pollServerSession sessionIframe does not exist'
-                    );
-                    this.loggerService.logDebug(clientId);
-                    this.loggerService.logDebug(this.sessionIframe);
-                    // this.init();
-                }
-            },
-            (err: any) => {
-                this.loggerService.logError('pollServerSession error: ' + err);
-            },
-            () => {
-                this.loggerService.logDebug(
-                    'checksession pollServerSession completed'
-                );
-            }
-        );
+        // source.subscribe(
+        //     () => {
+        //         if (this.sessionIframe && clientId) {
+        //             this.loggerService.logDebug(this.sessionIframe);
+        //             const session_state = this.oidcSecurityCommon.sessionState;
+        //             if (session_state) {
+        //                 this.sessionIframe.contentWindow.postMessage(
+        //                     clientId + ' ' + session_state,
+        //                     this.authConfiguration.stsServer
+        //                 );
+        //             }
+        //         } else {
+        //             this.loggerService.logWarning(
+        //                 'OidcSecurityCheckSession pollServerSession sessionIframe does not exist'
+        //             );
+        //             this.loggerService.logDebug(clientId);
+        //             this.loggerService.logDebug(this.sessionIframe);
+        //             // this.init();
+        //         }
+        //     },
+        //     (err: any) => {
+        //         this.loggerService.logError('pollServerSession error: ' + err);
+        //     },
+        //     () => {
+        //         this.loggerService.logDebug(
+        //             'checksession pollServerSession completed'
+        //         );
+        //     }
+        // );
     }
 
     private messageHandler(e: any) {
