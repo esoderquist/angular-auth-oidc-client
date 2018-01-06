@@ -669,40 +669,39 @@ export class OidcSecurityService {
         }
         this.runTokenValidationRunning = true;
 
-        // const source = timer(5000, 3000).pipe(
-        //     timeInterval(),
-        //     pluck('interval'),
-        //     take(10000)
-        // );
+        const source = timer(5000, 3000).pipe(
+            timeInterval(),
+            pluck('interval'),
+            take(10000)
+        );
 
-        // const source = timer(5000, 3000);
+        source.subscribe(
+            () => {
+                this.loggerService.logDebug("in RTV subscribe");
+                if (this._userData.value && (this.oidcSecurityCommon.silentRenewRunning !== 'running') && this.getIdToken()) {
+                    if (this.oidcSecurityValidation.isTokenExpired(
+                            this.oidcSecurityCommon.idToken,
+                            this.authConfiguration.silent_renew_offset_in_seconds
+                        )
+                    ) {
+                        this.loggerService.logDebug(
+                            'IsAuthorized: id_token isTokenExpired, start silent renew if active'
+                        );
 
-        // source.subscribe(
-        //     () => {
-        //         if (this._userData.value && (this.oidcSecurityCommon.silentRenewRunning !== 'running') && this.getIdToken()) {
-        //             if (this.oidcSecurityValidation.isTokenExpired(
-        //                     this.oidcSecurityCommon.idToken,
-        //                     this.authConfiguration.silent_renew_offset_in_seconds
-        //                 )
-        //             ) {
-        //                 this.loggerService.logDebug(
-        //                     'IsAuthorized: id_token isTokenExpired, start silent renew if active'
-        //                 );
-
-        //                 if (this.authConfiguration.silent_renew) {
-        //                     this.refreshSession();
-        //                 } else {
-        //                     this.resetAuthorizationData(false);
-        //                 }
-        //             }
-        //         }
-        //     },
-        //     (err: any) => {
-        //         this.loggerService.logError('Error: ' + err);
-        //     },
-        //     () => {
-        //         this.loggerService.logDebug('Completed');
-        //     }
-        // );
+                        if (this.authConfiguration.silent_renew) {
+                            this.refreshSession();
+                        } else {
+                            this.resetAuthorizationData(false);
+                        }
+                    }
+                }
+            },
+            (err: any) => {
+                this.loggerService.logError('Error: ' + err);
+            },
+            () => {
+                this.loggerService.logDebug('Completed');
+            }
+        );
     }
 }
